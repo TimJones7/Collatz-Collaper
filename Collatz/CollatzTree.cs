@@ -47,7 +47,7 @@ namespace CollatzTesting.Collatz
 
             while(currentNum.Next_Number != null)
             {
-                Console.WriteLine(currentNum.value);
+                Console.WriteLine($"Current number is: {currentNum.value}, with Leading # {currentNum.Leading_Digit}");
                 currentNum = currentNum.Next_Number;
             }
         

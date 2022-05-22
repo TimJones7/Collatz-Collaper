@@ -13,20 +13,31 @@ namespace CollatzTesting.Collatz
         public Number? num_From_Below { get; set; }
         public Number? num_From_Above { get; set; }
         public int stepsToOne { get; set; } 
-        public int timesSteppedOn { get; set; } //  possible value to track
+        public int Leading_Digit { get; set; }
+        public bool isPerfectSquare { get; set; }
+
 
 
         public Number(int x)
         {
             value = x;
+            Leading_Digit = setLeadingDigit(x);
+            isPerfectSquare = isNumberSquare(x);
+        }
+        private int setLeadingDigit(int x)
+        {
+            while (x >= 10)
+            {
+                x /= 10;
+            }
+            return x;
         }
 
-
-
-
-
-
-
+        private bool isNumberSquare(int x)
+        {
+            double sRoot = Math.Sqrt(x);
+            return(sRoot*sRoot == x);
+        }
 
 
     }
