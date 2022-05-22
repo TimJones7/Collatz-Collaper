@@ -42,7 +42,14 @@ namespace CollatzTesting.Collatz
             //  The following code should only execute
             //  if the chain has been completed and exists
             //  from x -> 1 
-        
+            Number startingNum = Numbers_Seen[x];
+            Number currentNum = startingNum;
+
+            while(currentNum.Next_Number != null)
+            {
+                Console.WriteLine(currentNum.value);
+                currentNum = currentNum.Next_Number;
+            }
         
         }
 
