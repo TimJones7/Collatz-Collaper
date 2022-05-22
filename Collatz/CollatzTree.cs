@@ -54,7 +54,7 @@ namespace CollatzTesting.Collatz
         }
 
 
-        private void ChainCompleter_Process(int x)
+        public void ChainCompleter_Process(int x)
         {
             //  This should be recursive
             //  Create new number
