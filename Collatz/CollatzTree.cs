@@ -15,7 +15,7 @@ namespace CollatzTesting.Collatz
         //  Keep track of numbers seen and what Number object it belongs to
         public SortedList<int,Number>? Numbers_Seen { get; set; }
 
-
+        public DigitDistribution _distribution;
   
         //  Constructor auto-sets the bottom node
         //  and adds it to "seen" list
@@ -25,6 +25,7 @@ namespace CollatzTesting.Collatz
             bottom = new Number(1);
             bottom.stepsToOne = 0;
             Numbers_Seen.Add(1,bottom);
+            _distribution = new DigitDistribution();
 
         }
 
@@ -113,15 +114,11 @@ namespace CollatzTesting.Collatz
             return (3 * x + 1);
         }
 
-
-
-
-
         //  Create methods to fill in "steps to One" variable
         //  Have function take int argument
         //  Check for completed chain, if complete fill array with path
         //  Then traverse path from 1 -> x ++Steps each time 
-
+        //
         public void fillSteps(int x)
         {
             //  Check if number has been seen.

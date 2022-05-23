@@ -5,7 +5,6 @@ Console.WriteLine("Hello, Collatz!");
 Console.WriteLine(" ");
 
 CollatzTree tree = new CollatzTree();
-DigitDistribution disty = new DigitDistribution();
 
 //Console.WriteLine("Printing Tree 101:");
 //tree.PrintFromNumber(101);
@@ -21,8 +20,8 @@ Console.WriteLine($"Printing Tree {x}:");
 tree.PrintFromNumber(x);
 Console.WriteLine(" ");
 
-disty.getTallyFromNum(tree, x);
+tree._distribution.getTallyFromNum(tree, x);
 Console.WriteLine($"Leading Digit Distribution from {x} => 1");
-disty.printDistribution();
+tree._distribution.printDistribution();
 Console.WriteLine(" ");
 
