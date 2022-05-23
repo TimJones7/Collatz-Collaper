@@ -23,6 +23,7 @@ namespace CollatzTesting.Collatz
         {
             Numbers_Seen = new SortedList<int,Number>();
             bottom = new Number(1);
+            bottom.stepsToOne = 0;
             Numbers_Seen.Add(1,bottom);
 
         }
@@ -89,10 +90,12 @@ namespace CollatzTesting.Collatz
                 //  This part only matters if we want to traverse away from 1
                 if(x > next_Num)
                 {
+                    //  Every number as a num_From_Above
                     Numbers_Seen[next_Num].num_From_Above = newNum;
                 }
                 if (x < next_Num)
                 {
+                    //  Not every number as a num_From_Below
                     Numbers_Seen[next_Num].num_From_Below = newNum;
                 }
             }
@@ -107,6 +110,56 @@ namespace CollatzTesting.Collatz
             }
             return (3 * x + 1);
         }
+
+
+
+
+
+        //  Create methods to fill in "steps to One" variable
+        //  Have function take int argument
+        //  Check for completed chain, if complete fill array with path
+        //  Then traverse path from 1 -> x ++Steps each time 
+
+        public void fillSteps(int x)
+        {
+            //  Check if number has been seen.
+            //  If not, complete chain
+            if (!Numbers_Seen.ContainsKey(x))
+            {
+                ChainCompleter_Process(x);
+            }
+
+            //  Now we want to traverse the chain from x -> 1
+            //  adding each Number to a list
+            List<Number> path = new List<Number>();
+            listBuilder(x, path);
+
+            //  Loop backwards thru list
+            //  Since '1' is set, we don't have to start at "bottom"
+            for (int i = path.Count - 2; i >= 0; i--)
+            {
+                path[i].stepsToOne = path[i+1].stepsToOne + 1;
+            }
+        }
+
+
+
+        private void listBuilder(int x, List<Number> path)
+        {
+            //  recursively fill a list with objects looking to the next one 
+
+            path.Add(Numbers_Seen[x]);
+            //  After adding the object we want to see what the next number is
+            //  if next number exists, we want to pass it in and call function again
+            //  if not, we are done filling list.
+            if (Numbers_Seen[x].Next_Number != null)
+            {
+                //  Get value is next number and the path object 
+                listBuilder(Numbers_Seen[x].Next_Number.value, path);
+            }
+        }
+
+
     }
 }
 
