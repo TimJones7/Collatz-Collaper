@@ -38,6 +38,7 @@ namespace CollatzTesting.Collatz
             if(!Numbers_Seen.ContainsKey(x))
             {
                 ChainCompleter_Process(x);
+                fillSteps(x);
             }
             
             //  The following code should only execute
@@ -48,7 +49,8 @@ namespace CollatzTesting.Collatz
 
             while(currentNum.Next_Number != null)
             {
-                Console.WriteLine($"Current number is: {currentNum.value}, with Leading # {currentNum.Leading_Digit}");
+                //Console.WriteLine($"Current number is: {currentNum.value}, with Leading # {currentNum.Leading_Digit}");
+                Console.WriteLine($"Current number is: {currentNum.value}, Steps remaining = {currentNum.stepsToOne}");
                 currentNum = currentNum.Next_Number;
             }
         
