@@ -30,18 +30,23 @@ namespace CollatzTesting.Collatz
         }
 
 
+        //  Method to check if path from x -> 1 exists, if not fill in
+        private void checkNums(int x)
+        {
+            if (!Numbers_Seen.ContainsKey(x))
+            {
+                ChainCompleter_Process(x);
+            }
+        }
+
         //  Print numbers from {}
         //  If doesn't exist, fill in
         public void PrintFromNumber(int x)
         {
             //  Check if number has been seen.
             //  If not start process of adding numbers until we find one we've seen
-            if(!Numbers_Seen.ContainsKey(x))
-            {
-                ChainCompleter_Process(x);
-                fillSteps(x);
-            }
-            
+            checkNums(x);
+            fillSteps(x);
             //  The following code should only execute
             //  if the chain has been completed and exists
             //  from x -> 1 
@@ -60,10 +65,7 @@ namespace CollatzTesting.Collatz
 
         public void ChainCompleter_Process(int x)
         {
-            //  This should be recursive
-            //  Create new number
             Number newNumber = CreateNumber(x);
-
         }
 
         private Number CreateNumber(int x)
@@ -118,15 +120,11 @@ namespace CollatzTesting.Collatz
         //  Have function take int argument
         //  Check for completed chain, if complete fill array with path
         //  Then traverse path from 1 -> x ++Steps each time 
-        //
         public void fillSteps(int x)
         {
             //  Check if number has been seen.
             //  If not, complete chain
-            if (!Numbers_Seen.ContainsKey(x))
-            {
-                ChainCompleter_Process(x);
-            }
+            checkNums(x);
 
             //  Now we want to traverse the chain from x -> 1
             //  adding each Number to a list
@@ -157,6 +155,66 @@ namespace CollatzTesting.Collatz
                 listBuilder(Numbers_Seen[x].Next_Number.value, path);
             }
         }
+
+
+
+
+
+        //  Find Least Common Ancestor
+        public Number findCommonAncestor(int a, int b)
+        {
+            //  Make sure chains are complete
+            checkNums(a);
+            checkNums(b);
+            fillSteps(a);
+            fillSteps(b);
+
+            //  Vars we need and init
+            Number left = Numbers_Seen[a];
+            Number right = Numbers_Seen[b];
+            //  We need to keep track of all the numbers we have seen, 
+            //  This way we can walk from each path to one and iterate
+            //  each Number by one step each time and not worry about
+            //  walking too far.
+            SortedList<int, Number> nums_seen = new SortedList<int, Number>();
+
+            //  Add initial values
+            nums_seen.Add(a, left);
+            nums_seen.Add(b, right);
+
+            //  While each numbers next number value does not exist as a key in the 
+            //  list then we need to go to the next number
+            //  As soon as we reach a value whose next_number == a key that exists, we're done
+            //  This only runs as long as both keys have not been seen
+            while (!Numbers_Seen.ContainsKey(left.Next_Number.value) || !Numbers_Seen.ContainsKey(right.Next_Number.value))
+            {
+                //  set left and right to next number
+                left = left.Next_Number;
+                right = right.Next_Number;
+                //  Add next numbers to 'seen' list
+                nums_seen.Add(left.value, left);
+                nums_seen.Add(right.value, right);
+            }
+
+            //  This part should only run if we arrive at a number we've seen
+            //  At this point, left/right should have stopped walking whenever
+            //  it reached the nearest common ancestor I think
+            //  Now we need to get which one it is. 
+            if (Numbers_Seen.ContainsKey(left.Next_Number.value))
+            {
+                return left.Next_Number;
+            }
+            if (Numbers_Seen.ContainsKey(right.Next_Number.value))
+            {
+                return right.Next_Number;
+            }
+            //  Making the function work, return bottom {1} if all else fails
+            return bottom;
+        }
+
+
+
+
 
 
     }
